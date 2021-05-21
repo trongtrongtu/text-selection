@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import Highlighter from './components/Highlighter';
 import reportWebVitals from './reportWebVitals';
+
+const text = "Let there be light, let there be Sun.";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Highlighter text={text} />
   </React.StrictMode>,
   document.getElementById('root')
 );
