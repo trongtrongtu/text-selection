@@ -5,15 +5,7 @@ import 'antd/dist/antd.css';
 
 class Highlighter extends Component {
   state = {
-    isModalVisible: false,
-    textHighlight: '',
-    dataArr: [],
-    descriptiondefault: 'It wasn’t just the rules that had changed. The statistical revolution that swept into Major League Baseball shortly after the turn of the twenty-first century had arrived, with a few years’ delay, in the N.B.A., bringing a greater emphasis on three-point shooting from the corners and on finding openings near the basket, for high-percentage attempts. As a result, teams were reshuffling their depth charts in favor of mobility over size. “Small ball,” Bryant (and others) called it. The kind of versatile player, like Bryant, who could shoot well from anywhere on the court was no longer so highly prized, because twenty-foot jumpers were a low-percentage gamble, by definition. “I’ve always been more interested in the creative side of the game, like how things happen, why things happen, as opposed to just the numbers,” Bryant told me. “Numbers have never felt fun to me.”',
     description: 'It wasn’t just the rules that had changed. The statistical revolution that swept into Major League Baseball shortly after the turn of the twenty-first century had arrived, with a few years’ delay, in the N.B.A., bringing a greater emphasis on three-point shooting from the corners and on finding openings near the basket, for high-percentage attempts. As a result, teams were reshuffling their depth charts in favor of mobility over size. “Small ball,” Bryant (and others) called it. The kind of versatile player, like Bryant, who could shoot well from anywhere on the court was no longer so highly prized, because twenty-foot jumpers were a low-percentage gamble, by definition. “I’ve always been more interested in the creative side of the game, like how things happen, why things happen, as opposed to just the numbers,” Bryant told me. “Numbers have never felt fun to me.”',
-    text: "I saw the best minds of my generation destroyed by madness, starving hysterical naked, dragging themselves...",
-    highlights: [],
-    position1: null,
-    position2: null,
     textSelect: '',
   }
 
@@ -35,8 +27,6 @@ class Highlighter extends Component {
             $("#tooltip").show();
             var range = window.getSelection().getRangeAt(0);
             _this.setState({
-              position1: window.getSelection().anchorOffset,
-              position2: window.getSelection().extentOffset,
               textSelect: selection.toString(),
               range,
             })
@@ -46,7 +36,6 @@ class Highlighter extends Component {
               }
             });
           }
-          // });
         }
       }, 300);
     }).dblclick(function (e) {
@@ -60,8 +49,6 @@ class Highlighter extends Component {
         $("#popup").show();
         var range = window.getSelection().getRangeAt(0);
         _this.setState({
-          position1: window.getSelection().anchorOffset,
-          position2: window.getSelection().extentOffset,
           textSelect: selection.toString(),
           range,
         })
@@ -96,7 +83,6 @@ class Highlighter extends Component {
     const { range } = this.state
     var selectionContents = range.extractContents();
     var div = document.createElement("span");
-    // console.log('div.style: ', div.style.background)
     div.style.background = "red";
     div.style.cursor = "pointer";
     div.title = event.target.textSelect.value
