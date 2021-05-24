@@ -3,8 +3,19 @@
   text-align: center;
 }
 
+.custom-class-default {
+  background-color: rgb(192, 218, 113);
+  cursor: pointer;
+}
+
 .custom-class {
-  background-color: #e06f6f;
+  background-color: #ffe846;
+  cursor: pointer;
+}
+
+.custom-class-replace {
+  background-color: rgba(255, 175, 182, 1) !important;
+  cursor: pointer;
 }
 
 .highlighted {
@@ -12,7 +23,7 @@
 }
 
 #tooltip {
-  background-color: #EEE;
+  /* background-color: #EEE;
   display: inline-block;
   padding-top: 5px;
   padding-right: 5px;
@@ -20,12 +31,16 @@
   padding-left: 5px;
   border: 1px solid;
   border-color: #3333FF;
-  border-radius: 15px;
+  border-radius: 15px; */
+  display: none;
+}
+
+#tooltipHover {
   display: none;
 }
 
 #popup {
-  background-color: #EEE;
+  /* background-color: #EEE;
   display: inline-block;
   padding-top: 5px;
   padding-right: 5px;
@@ -33,7 +48,7 @@
   padding-left: 5px;
   border: 1px solid;
   border-color: #3333FF;
-  border-radius: 15px;
+  border-radius: 15px; */
   display: none;
 }
 
@@ -68,4 +83,71 @@
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
+}
+
+#tooltip1 {
+  display: none;
+}
+
+#longtext:hover+#tooltip1 {
+  display: block;
+}
+
+.area-markup-quote {
+  resize: none;
+  border-radius: 5px;
+  margin-bottom: -15px;
+}
+
+.area-markup-quote {
+  border: 0;
+  border-radius: 5px;
+  padding: 3px 7px;
+  order: 3;
+  margin-left: 5px;
+  outline: none;
+}
+
+.hight-light-content-panel {
+  align-items: center;
+}
+
+.btn-note-markup-quote {
+  order: 1;
+  margin-right: 5px;
+  padding: 7px;
+  border: 0;
+  background: transparent;
+  color: white;
+  font-size: 22px;
+  outline: none;
+  border-radius: 3px;
+}
+
+.btn-note-markup-quote.enable {
+  background: #FF9800;
+  color: #333;
+}
+
+.hight-light-parent-panel {
+  position: fixed;
+  z-index: 200;
+  box-sizing: content-box;
+  padding: 5px;
+  background: rgba(0, 0, 0, .84);
+  border-radius: 7px;
+}
+
+.dictWordPanel {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 7px;
+  width: 450px;
+}
+
+.popupHeader {
+  width: 100%;
+  overflow: hidden;
+  border-bottom: 1px solid gray;
+  padding-bottom: 5px;
 }
