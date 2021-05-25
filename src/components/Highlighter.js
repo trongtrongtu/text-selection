@@ -30,7 +30,6 @@ class Highlighter extends Component {
         if (dblclick > 0) {
           $(that).data('double', dblclick - 1);
         } else {
-          // console.log('click')
           inputValue = ''
           let selection = window.getSelection().toString();
           if (selection && selection !== ' ') {
@@ -41,13 +40,11 @@ class Highlighter extends Component {
             $("#tooltip").show();
             checkTooltip = true
             let range = window.getSelection().getRangeAt(0);
-            // console.log('selectionContents: ', window.getSelection().getRangeAt(0))
             _this.setState({
               textSelect: selection.toString(),
               range,
             })
             $('#selTxt').on('input', function (e) {
-              // console.log('inputValue: ', e.currentTarget.value)
               inputValue = e.currentTarget.value
             });
             $(document).on('click', function (e) {
@@ -55,13 +52,10 @@ class Highlighter extends Component {
                 $("#tooltip").hide();
                 if (inputValue && checkTooltip) {
                   checkTooltip = false
-                  // console.log('aaaa: ', inputValue)
                   let selectionContents = _this.state.range.extractContents();
                   let div = document.createElement("span");
                   div.id = `name_tooltip_${Math.random()}`
                   div.className = 'custom-class'
-                  // div.style.background = "red";
-                  // div.style.cursor = "pointer";
                   div.title = inputValue
                   div.appendChild(selectionContents);
                   _this.state.range.insertNode(div);
@@ -91,10 +85,8 @@ class Highlighter extends Component {
         _this.setState({
           textSelect: selection.toString(),
         })
-        // let range = window.getSelection().getRangeAt(0);
         $(document).on('click', function (e) {
           if ($(e.target).closest("#popup").length === 0) {
-            // console.log('bbbb')
             _this.setState({
               key: Math.random()
             })
@@ -103,16 +95,6 @@ class Highlighter extends Component {
         });
       }
     });
-    // $(document).on('click', function (e) {
-    //   if ($(e.target).closest("#tooltipHover").length === 0) {
-    //     _this.setState({
-    //       key: Math.random()
-    //     })
-    //   }
-    // });
-    // $("#addBtn").click(function () {
-    //   $("#tooltip").hide();
-    // });
     function placeTooltip(x_pos, y_pos) {
       $("#tooltip").css({
         top: y_pos - 75 + 'px',
@@ -133,22 +115,17 @@ class Highlighter extends Component {
     that = this
     $(".custom-class").hover(
       function (e) {
-        // console.log('$( e ).length: ', $(this).text().length)
         inputValue = e.currentTarget.title
         idTooltip = `#${e.currentTarget.id}`
         classTooltip = $(e.target).attr('class')
         _this = this;
         let e_hover = e
-        // $(this).addClass("hover");
         $('#selTxtHover').val(e.currentTarget.title);
         let x = e.pageX;
         let y = e.pageY;
-        // that.setState({ key: Math.random() })
         placeTooltip(x, y);
         $("#tooltipHover").show();
-        // console.log('componentDidUpdate: ', e)
         $('#selTxtHover').on('input', function (e) {
-          // console.log('componentDidUpdateInputValue: ', e.currentTarget.value)
           checkTooltip = true
           inputValue = e.currentTarget.value
         });
@@ -165,37 +142,17 @@ class Highlighter extends Component {
             $("#tooltipHover").hide();
             if (inputValue && checkTooltip && inputValue !== e_hover.currentTarget.title) {
               checkTooltip = false
-              // console.log('componentDidUpdateOut: ', inputValue, e_hover.currentTarget.title)
-              // that.setState({ key: Math.random() })
               $(_this).replaceWith(`<span id=${e_hover.currentTarget.id} class="custom-class" title=${inputValue}>${$(_this).text()}</span>`);
-              // let selectionContents = _this.state.range.extractContents();
-              // let div = document.createElement("span");
-              // div.className = 'nameTooltip'
-              // div.style.background = "red";
-              // div.style.cursor = "pointer";
-              // div.title = inputValue
-              // div.appendChild(selectionContents);
-              // _this.state.range.insertNode(div);
             } else if (!inputValue && checkTooltip) {
-              // console.log('_this: ', checkTooltip)
               checkTooltip = false
               $(_this).replaceWith($(_this).text());
             }
           }
         });
       }, function () {
-        // $(this).removeClass("hover");
-        // $("#tooltip").hide();
         $(".custom-class").finish()
       }
     );
-    // $(document).on('click', function (e) {
-    //   if ($(e.target).closest("#tooltipHover").length === 0) {
-    //     _this.setState({
-    //       key: Math.random()
-    //     })
-    //   }
-    // });
     function placeTooltip(x_pos, y_pos) {
       $("#tooltipHover").css({
         top: y_pos - 80 + 'px',
@@ -209,42 +166,16 @@ class Highlighter extends Component {
     try {
       let response = await fetch(`https://e-course.appspot.com/utils?type=translate&word=${params}`);
       let responseJson = await response.text();
-      // console.log('responseJson: ', responseJson)
       return responseJson;
     } catch (error) {
       console.error(`Error is : ${error}`);
     }
   }
 
-  // onchange = (event) => {
-  //   event.preventDefault();
-  //   const { range } = this.state
-  //   let selectionContents = range.extractContents();
-  //   let div = document.createElement("span");
-  //   div.className = 'name'
-  //   div.style.background = "red";
-  //   div.style.cursor = "pointer";
-  //   div.title = event.target.textSelect.value
-  //   div.appendChild(selectionContents);
-  //   range.insertNode(div);
-  // }
-
-  // compare = (a, b) => {
-  //   if (a.start > b.start) {
-  //     return -1;
-  //   }
-  //   if (a.start < b.start) {
-  //     return 1;
-  //   }
-  //   return 0;
-  // }
-
   render() {
     const { description, textSelect, range, key, textTranslate } = this.state
     const { text } = this.props
-    // console.log('range: ', document.getElementById("longtext").querySelectorAll(".name"))
-    // console.log('document.getElementById("selTxt").value: ', document.getElementById("selTxt").value)
-    // console.log('setStateKey: ', textTranslate);
+
     return (
       <>
         <ul id="names">
