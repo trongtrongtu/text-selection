@@ -12,10 +12,11 @@ let classTooltip = null
 
 class Highlighter extends Component {
   state = {
-    description: 'It wasn’t just the rules that had changed. The statistical revolution that swept into Major League Baseball shortly after the turn of the twenty-first century had arrived, with a few years’ delay, in the N.B.A., bringing a greater emphasis on three-point shooting from the corners and on finding openings near the basket, for high-percentage attempts. As a result, teams were reshuffling their depth charts in favor of mobility over size. “Small ball,” Bryant (and others) called it. The kind of versatile player, like Bryant, who could shoot well from anywhere on the court was no longer so highly prized, because twenty-foot jumpers were a low-percentage gamble, by definition. “I’ve always been more interested in the creative side of the game, like how things happen, why things happen, as opposed to just the numbers,” Bryant told me. “Numbers have never felt fun to me.<span class="custom-class"></span>”',
+    description: '',
     textSelect: '',
     range: null,
-    key: Math.random()
+    key: Math.random(),
+    textTranslate: ''
   }
 
   componentDidMount() {
@@ -77,18 +78,23 @@ class Highlighter extends Component {
       $(this).data('double', 2);
       let selection = window.getSelection().toString();
       if (selection && selection !== ' ') {
+        _this.getTranslate(selection.toString()).then((value) => {
+          _this.setState({
+            textTranslate: `${value}`
+          })
+          $("#popup").show();
+        })
         $('#selTxt').val('');
         let x = e.pageX;
         let y = e.pageY;
         placePopup(x, y);
-        $("#popup").show();
         _this.setState({
           textSelect: selection.toString(),
         })
         // let range = window.getSelection().getRangeAt(0);
         $(document).on('click', function (e) {
           if ($(e.target).closest("#popup").length === 0) {
-            console.log('bbbb')
+            // console.log('bbbb')
             _this.setState({
               key: Math.random()
             })
@@ -199,6 +205,17 @@ class Highlighter extends Component {
     }
   }
 
+  getTranslate = async (params) => {
+    try {
+      let response = await fetch(`https://e-course.appspot.com/utils?type=translate&word=${params}`);
+      let responseJson = await response.text();
+      // console.log('responseJson: ', responseJson)
+      return responseJson;
+    } catch (error) {
+      console.error(`Error is : ${error}`);
+    }
+  }
+
   // onchange = (event) => {
   //   event.preventDefault();
   //   const { range } = this.state
@@ -223,10 +240,11 @@ class Highlighter extends Component {
   // }
 
   render() {
-    const { description, textSelect, range, key } = this.state
+    const { description, textSelect, range, key, textTranslate } = this.state
+    const { text } = this.props
     // console.log('range: ', document.getElementById("longtext").querySelectorAll(".name"))
     // console.log('document.getElementById("selTxt").value: ', document.getElementById("selTxt").value)
-    console.log('setStateKey: ', this.state.key);
+    // console.log('setStateKey: ', textTranslate);
     return (
       <>
         <ul id="names">
@@ -243,14 +261,14 @@ class Highlighter extends Component {
             <textarea onChange={() => this.setState({ key: Math.random() })} id='selTxtHover' name="textSelect" className="widget_not_handler area-markup-quote" placeholder="Ghi chú..."></textarea>
           </div>
         </div>
-        <div id="popup" className="dictWordPanel" style={{ width: '30%' }}>
-          <div style={{ position: 'relative' }} className="popupHeader">
-            <span>{textSelect}</span>
+        <div id="popup" className="dictWordPanel">
+          <div className="popupHeader">
+            <span style={{ fontWeight: 'bold' }}>{textSelect}</span>
             <span style={{ position: 'absolute', top: 0, right: 5, cursor: 'pointer' }} onClick={() => document.getElementById('popup').style.display = "none"}><i className="far fa-times-circle"></i></span>
           </div>
-          <div dangerouslySetInnerHTML={{ __html: `<figure class="table"><table style="background-color:rgb(255, 255, 255);"><tbody><tr><td style="padding:0px;width:18px;"><strong>◎</strong></td><td style="padding:0px;width:2000px;" colspan="3">[,revə'lu:∫n]</td></tr><tr><td style="padding:0px;width:18px;"><strong>※</strong></td><td style="padding:0px;width:2000px;" colspan="3"><strong>danh từ</strong></td></tr><tr><td style="padding:0px;">&nbsp;</td><td style="padding:0px;width:18px;"><strong>■</strong></td><td style="padding:0px;width:2000px;" colspan="2">sự xoay vòng; vòng quay; vòng, tua</td></tr><tr><td style="padding:0px;" colspan="2">&nbsp;</td><td style="padding:0px;width:18px;"><strong>☆</strong></td><td style="padding:0px;width:2000px;">revolutions per minute</td></tr><tr><td style="padding:0px;" colspan="3">&nbsp;</td><td style="padding:0px;width:2000px;">số vòng quay mỗi phút</td></tr><tr><td style="padding:0px;">&nbsp;</td><td style="padding:0px;width:18px;"><strong>■</strong></td><td style="padding:0px;width:2000px;" colspan="2">(toán học); (thiên văn học) sự xoay vòng</td></tr><tr><td style="padding:0px;">&nbsp;</td><td style="padding:0px;width:18px;"><strong>■</strong></td><td style="padding:0px;width:2000px;" colspan="2">cuộc cách mạng (nhất là bằng vũ lực, lật đổ một chế độ cai trị)</td></tr><tr><td style="padding:0px;" colspan="2">&nbsp;</td><td style="padding:0px;width:18px;"><strong>☆</strong></td><td style="padding:0px;width:2000px;">the socialist revolution</td></tr><tr><td style="padding:0px;" colspan="3">&nbsp;</td><td style="padding:0px;width:2000px;">cuộc cách mạng xã hội chủ nghĩa</td></tr><tr><td style="padding:0px;" colspan="2">&nbsp;</td><td style="padding:0px;width:18px;"><strong>☆</strong></td><td style="padding:0px;width:2000px;">the national democratic revolution</td></tr><tr><td style="padding:0px;" colspan="3">&nbsp;</td><td style="padding:0px;width:2000px;">cuộc cách mạng dân tộc dân chủ</td></tr><tr><td style="padding:0px;">&nbsp;</td><td style="padding:0px;width:18px;"><strong>■</strong></td><td style="padding:0px;width:2000px;" colspan="2">cuộc cách mạng (sự thay đổi hoàn toàn về phương pháp, hoàn cảnh..)</td></tr><tr><td style="padding:0px;" colspan="2">&nbsp;</td><td style="padding:0px;width:18px;"><strong>☆</strong></td><td style="padding:0px;width:2000px;">a revolution in the treatment of cancer</td></tr><tr><td style="padding:0px;" colspan="3">&nbsp;</td><td style="padding:0px;width:2000px;">một cuộc cách mạng trong cách điều trị ung thư</td></tr><tr><td style="padding:0px;" colspan="2">&nbsp;</td><td style="padding:0px;width:18px;"><strong>☆</strong></td><td style="padding:0px;width:2000px;">a technological revolution</td></tr><tr><td style="padding:0px;" colspan="3">&nbsp;</td><td style="padding:0px;width:2000px;">một cuộc cách mạng trong công nghệ</td></tr></tbody></table></figure>` }}></div>
+          <div dangerouslySetInnerHTML={{ __html: textTranslate }}></div>
         </div>
-        <div id='longtext' style={{ margin: '100px' }} dangerouslySetInnerHTML={{ __html: description }}></div>
+        <div id='longtext' style={{ margin: '100px' }} dangerouslySetInnerHTML={{ __html: text }}></div>
       </>
     );
   }
