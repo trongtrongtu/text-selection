@@ -106,10 +106,19 @@
   order: 3;
   margin-left: 5px;
   outline: none;
+  /* font-family: inherit;
+  line-height: 1.5715; */
+  height: 40px;
+  margin-bottom: 0px;
 }
 
 .hight-light-content-panel {
   align-items: center;
+  display: flex;
+}
+
+.widget_not_handler-button {
+  /* display: flex; */
 }
 
 .btn-note-markup-quote {
@@ -122,6 +131,7 @@
   font-size: 22px;
   outline: none;
   border-radius: 3px;
+  cursor: pointer;
 }
 
 .btn-note-markup-quote.enable {
