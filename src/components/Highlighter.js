@@ -73,7 +73,7 @@ class Highlighter extends Component {
               //   $(div).replaceWith(`<span id=name_tooltip_${Math.random()} class="custom-class" title=${inputValue}>${$(div).text()}</span>`);
               // }
             });
-            $("#removeBtn").click(function () {
+            $("#remove-btn").click(function () {
               $("#tooltip").hide();
               checkColor = false
               $(div).replaceWith($(div).text());
@@ -230,7 +230,7 @@ class Highlighter extends Component {
           <div className="widget_not_handler hight-light-content-panel">
             <div className="widget_not_handler-button">
               <button onClick={() => this.setState({ key: Math.random() })} type="button" id='add-btn' className="widget_not_handler btn-note-markup-quote"><i className="fas fa-pencil-alt" style={{ fontSize: '18px' }}></i> </button>
-              <button type="button" id='removeBtn' className="widget_not_handler btn-note-markup-quote"><i className="far fa-trash-alt" style={{ fontSize: '18px' }}></i> </button>
+              <button type="button" id='remove-btn' className="widget_not_handler btn-note-markup-quote"><i className="far fa-trash-alt" style={{ fontSize: '18px' }}></i> </button>
             </div>
             <textarea id='sel-txt' name="text-select" className="widget_not_handler area-markup-quote" placeholder="Ghi chú..."></textarea>
           </div>
