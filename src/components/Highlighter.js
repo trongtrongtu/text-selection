@@ -11,6 +11,7 @@ let idTooltip = null
 let classTooltip = null
 let div = null
 let checkColor = false
+let checkHover = false
 
 class Highlighter extends Component {
   state = {
@@ -83,6 +84,7 @@ class Highlighter extends Component {
                 $("#tooltip").hide();
                 if (inputValue && checkTooltip) {
                   checkTooltip = false
+                  checkHover = false
                   $(div).replaceWith(`<span id=name_tooltip_${Math.random()} class="${!checkColor ? 'custom-class' : 'custom-class custom-class-replace'}" title=${inputValue}>${$(div).text()}</span>`);
                   checkColor = false
                   _this.setState({
@@ -91,6 +93,7 @@ class Highlighter extends Component {
                   })
                 } else if (!inputValue && checkTooltip) {
                   checkTooltip = false
+                  checkHover = false
                   checkColor = false
                   $(div).replaceWith($(div).text());
                   _this.setState({
@@ -152,48 +155,54 @@ class Highlighter extends Component {
     if (!checkPopup) {
       $(".custom-class").hover(
         function (e) {
-          inputValue = e.currentTarget.title
-          idTooltip = `#${e.currentTarget.id}`
-          classTooltip = $(e.target).attr('class')
-          _this = this;
-          let e_hover = e
-          $('#sel-txt-hover').val(e.currentTarget.title);
-          let x = e.pageX;
-          let y = e.pageY;
-          placeTooltip(x, y);
-          $("#tooltip-hover").show();
-          $('#sel-txt-hover').on('input', function (e) {
-            checkTooltip = true
-            inputValue = e.currentTarget.value
-          });
-          $("#add-btn-hover").click(function () {
-            checkTooltip = true
-            if (classTooltip === 'custom-class') {
-              $(_this).replaceWith(`<span id=${e_hover.currentTarget.id} class="custom-class custom-class-replace" title=${inputValue}>${$(_this).text()}</span>`);
-            } else {
-              $(_this).replaceWith(`<span id=${e_hover.currentTarget.id} class="custom-class" title=${inputValue}>${$(_this).text()}</span>`);
-            }
-          });
-          $("#remove-btn-hover").click(function () {
-            $("#tooltip-hover").hide();
-            $(_this).replaceWith($(_this).text());
-          });
-          $(document).on('click', function (e) {
-            if ($(e.target).closest("#tooltip-hover").length === 0) {
-              $("#tooltip-hover").hide();
-              if (inputValue && checkTooltip && inputValue !== e_hover.currentTarget.title) {
-                checkTooltip = false
-                if (classTooltip === 'custom-class') {
-                  $(_this).replaceWith(`<span id=${e_hover.currentTarget.id} class="custom-class" title=${inputValue}>${$(_this).text()}</span>`);
-                } else {
-                  $(_this).replaceWith(`<span id=${e_hover.currentTarget.id} class="custom-class custom-class-replace" title=${inputValue}>${$(_this).text()}</span>`);
-                }
-              } else if (!inputValue && checkTooltip) {
-                checkTooltip = false
-                $(_this).replaceWith($(_this).text());
+          if (!checkHover) {
+            inputValue = e.currentTarget.title
+            idTooltip = `#${e.currentTarget.id}`
+            classTooltip = $(e.target).attr('class')
+            _this = this;
+            let e_hover = e
+            $('#sel-txt-hover').val(e.currentTarget.title);
+            let x = e.pageX;
+            let y = e.pageY;
+            placeTooltip(x, y);
+            $("#tooltip-hover").show();
+            $('#sel-txt-hover').on('input', function (e) {
+              checkTooltip = true
+              inputValue = e.currentTarget.value
+            });
+            // console.log('checkHover: ', checkHover)
+            checkHover = true
+            $("#add-btn-hover").click(function () {
+              checkTooltip = true
+              if (classTooltip === 'custom-class') {
+                $(_this).replaceWith(`<span id=${e_hover.currentTarget.id} class="custom-class custom-class-replace" title=${inputValue}>${$(_this).text()}</span>`);
+              } else {
+                $(_this).replaceWith(`<span id=${e_hover.currentTarget.id} class="custom-class" title=${inputValue}>${$(_this).text()}</span>`);
               }
-            }
-          });
+            });
+            $("#remove-btn-hover").click(function () {
+              $("#tooltip-hover").hide();
+              checkHover = false
+              $(_this).replaceWith($(_this).text());
+            });
+            $(document).on('click', function (e) {
+              if ($(e.target).closest("#tooltip-hover").length === 0) {
+                checkHover = false
+                $("#tooltip-hover").hide();
+                if (inputValue && checkTooltip && inputValue !== e_hover.currentTarget.title) {
+                  checkTooltip = false
+                  if (classTooltip === 'custom-class') {
+                    $(_this).replaceWith(`<span id=${e_hover.currentTarget.id} class="custom-class" title=${inputValue}>${$(_this).text()}</span>`);
+                  } else {
+                    $(_this).replaceWith(`<span id=${e_hover.currentTarget.id} class="custom-class custom-class-replace" title=${inputValue}>${$(_this).text()}</span>`);
+                  }
+                } else if (!inputValue && checkTooltip) {
+                  checkTooltip = false
+                  $(_this).replaceWith($(_this).text());
+                }
+              }
+            });
+          }
         }, function () {
           $(".custom-class").finish()
         }
