@@ -148,7 +148,7 @@
   border-radius: 7px;
 }
 
-.dictWordPanel {
+.dict-word-panel {
   background: white;
   border: 1px solid #ddd;
   padding: 7px;
@@ -158,7 +158,7 @@
   position: relative;
 }
 
-.popupHeader {
+.popup-header {
   width: 100%;
   overflow: hidden;
   border-bottom: 1px solid gray;

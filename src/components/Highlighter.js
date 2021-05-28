@@ -244,7 +244,7 @@ class Highlighter extends Component {
             <textarea onChange={() => this.setState({ key: Math.random() })} id='selTxtHover' name="textSelect" className="widget_not_handler area-markup-quote" placeholder="Ghi chú..."></textarea>
           </div>
         </div>
-        <div id="popup" className="dictWordPanel">
+        <div id="popup" className="dict-word-panel">
           <div className="popupHeader">
             <span style={{ fontWeight: 'bold' }}>{textSelect}</span>
             <span style={{ position: 'absolute', top: 6, right: 8, cursor: 'pointer' }} onClick={() => document.getElementById('popup').style.display = "none"}><i className="far fa-times-circle"></i></span>
