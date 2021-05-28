@@ -161,7 +161,7 @@ class Highlighter extends Component {
           let x = e.pageX;
           let y = e.pageY;
           placeTooltip(x, y);
-          $("#tooltipHover").show();
+          $("#tooltip-hover").show();
           $('#selTxtHover').on('input', function (e) {
             checkTooltip = true
             inputValue = e.currentTarget.value
@@ -175,12 +175,12 @@ class Highlighter extends Component {
             }
           });
           $("#removeBtnHover").click(function () {
-            $("#tooltipHover").hide();
+            $("#tooltip-hover").hide();
             $(_this).replaceWith($(_this).text());
           });
           $(document).on('click', function (e) {
-            if ($(e.target).closest("#tooltipHover").length === 0) {
-              $("#tooltipHover").hide();
+            if ($(e.target).closest("#tooltip-hover").length === 0) {
+              $("#tooltip-hover").hide();
               if (inputValue && checkTooltip && inputValue !== e_hover.currentTarget.title) {
                 checkTooltip = false
                 if (classTooltip === 'custom-class') {
@@ -199,7 +199,7 @@ class Highlighter extends Component {
         }
       );
       function placeTooltip(x_pos, y_pos) {
-        $("#tooltipHover").css({
+        $("#tooltip-hover").css({
           top: y_pos - 75 + 'px',
           left: x_pos - 140 + 'px',
           position: 'absolute'
@@ -235,7 +235,7 @@ class Highlighter extends Component {
             <textarea id='selTxt' name="textSelect" className="widget_not_handler area-markup-quote" placeholder="Ghi chú..."></textarea>
           </div>
         </div>
-        <div id="tooltipHover" className="widget_not_handler hight-light-parent-panel">
+        <div id="tooltip-hover" className="widget_not_handler hight-light-parent-panel">
           <div className="widget_not_handler hight-light-content-panel">
             <div className="widget_not_handler-button">
               <button onClick={() => this.setState({ key: Math.random() })} type="button" id='addBtnHover' className="widget_not_handler btn-note-markup-quote" > <i className="fas fa-pencil-alt" style={{ fontSize: '18px' }}></i> </button>
