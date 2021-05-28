@@ -36,7 +36,7 @@ class Highlighter extends Component {
           inputValue = ''
           let selection = window.getSelection().toString();
           if (selection && selection !== ' ') {
-            $('#selTxt').val('');
+            $('#sel-txt').val('');
             let x = e.pageX;
             let y = e.pageY;
             placeTooltip(x, y);
@@ -48,7 +48,7 @@ class Highlighter extends Component {
               range,
               checkPopup: true
             })
-            $('#selTxt').on('input', function (e) {
+            $('#sel-txt').on('input', function (e) {
               inputValue = e.currentTarget.value
             });
             let selectionContents = _this.state.range.extractContents();
@@ -61,7 +61,7 @@ class Highlighter extends Component {
             _this.setState({
               key: Math.random()
             })
-            $("#addBtn").click(function () {
+            $("#add-btn").click(function () {
               checkTooltip = true
               // if (classTooltip === 'custom-class') {
               checkColor = true
@@ -113,7 +113,7 @@ class Highlighter extends Component {
           })
           $("#popup").show();
         })
-        $('#selTxt').val('');
+        $('#sel-txt').val('');
         let x = e.pageX;
         let y = e.pageY;
         placePopup(x, y);
@@ -157,16 +157,16 @@ class Highlighter extends Component {
           classTooltip = $(e.target).attr('class')
           _this = this;
           let e_hover = e
-          $('#selTxtHover').val(e.currentTarget.title);
+          $('#sel-txt-hover').val(e.currentTarget.title);
           let x = e.pageX;
           let y = e.pageY;
           placeTooltip(x, y);
           $("#tooltip-hover").show();
-          $('#selTxtHover').on('input', function (e) {
+          $('#sel-txt-hover').on('input', function (e) {
             checkTooltip = true
             inputValue = e.currentTarget.value
           });
-          $("#addBtnHover").click(function () {
+          $("#add-btn-hover").click(function () {
             checkTooltip = true
             if (classTooltip === 'custom-class') {
               $(_this).replaceWith(`<span id=${e_hover.currentTarget.id} class="custom-class custom-class-replace" title=${inputValue}>${$(_this).text()}</span>`);
@@ -174,7 +174,7 @@ class Highlighter extends Component {
               $(_this).replaceWith(`<span id=${e_hover.currentTarget.id} class="custom-class" title=${inputValue}>${$(_this).text()}</span>`);
             }
           });
-          $("#removeBtnHover").click(function () {
+          $("#remove-btn-hover").click(function () {
             $("#tooltip-hover").hide();
             $(_this).replaceWith($(_this).text());
           });
@@ -229,19 +229,19 @@ class Highlighter extends Component {
         <div id="tooltip" className="widget_not_handler hight-light-parent-panel">
           <div className="widget_not_handler hight-light-content-panel">
             <div className="widget_not_handler-button">
-              <button onClick={() => this.setState({ key: Math.random() })} type="button" id='addBtn' className="widget_not_handler btn-note-markup-quote"><i className="fas fa-pencil-alt" style={{ fontSize: '18px' }}></i> </button>
+              <button onClick={() => this.setState({ key: Math.random() })} type="button" id='add-btn' className="widget_not_handler btn-note-markup-quote"><i className="fas fa-pencil-alt" style={{ fontSize: '18px' }}></i> </button>
               <button type="button" id='removeBtn' className="widget_not_handler btn-note-markup-quote"><i className="far fa-trash-alt" style={{ fontSize: '18px' }}></i> </button>
             </div>
-            <textarea id='selTxt' name="textSelect" className="widget_not_handler area-markup-quote" placeholder="Ghi chú..."></textarea>
+            <textarea id='sel-txt' name="text-select" className="widget_not_handler area-markup-quote" placeholder="Ghi chú..."></textarea>
           </div>
         </div>
         <div id="tooltip-hover" className="widget_not_handler hight-light-parent-panel">
           <div className="widget_not_handler hight-light-content-panel">
             <div className="widget_not_handler-button">
-              <button onClick={() => this.setState({ key: Math.random() })} type="button" id='addBtnHover' className="widget_not_handler btn-note-markup-quote" > <i className="fas fa-pencil-alt" style={{ fontSize: '18px' }}></i> </button>
-              <button type="button" id='removeBtnHover' className="widget_not_handler btn-note-markup-quote"><i className="far fa-trash-alt" style={{ fontSize: '18px' }}></i> </button>
+              <button onClick={() => this.setState({ key: Math.random() })} type="button" id='add-btn-hover' className="widget_not_handler btn-note-markup-quote" > <i className="fas fa-pencil-alt" style={{ fontSize: '18px' }}></i> </button>
+              <button type="button" id='remove-btn-hover' className="widget_not_handler btn-note-markup-quote"><i className="far fa-trash-alt" style={{ fontSize: '18px' }}></i> </button>
             </div>
-            <textarea onChange={() => this.setState({ key: Math.random() })} id='selTxtHover' name="textSelect" className="widget_not_handler area-markup-quote" placeholder="Ghi chú..."></textarea>
+            <textarea onChange={() => this.setState({ key: Math.random() })} id='sel-txt-hover' name="text-select" className="widget_not_handler area-markup-quote" placeholder="Ghi chú..."></textarea>
           </div>
         </div>
         <div id="popup" className="dict-word-panel">
