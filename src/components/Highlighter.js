@@ -4,14 +4,18 @@ import "./styles.css";
 // import 'antd/dist/antd.css';
 
 let that = null
-let _this = null
+let _thisHover = null
 let inputValue = null
 let checkTooltip = false
 let idTooltip = null
 let classTooltip = null
 let div = null
 let checkColor = false
+let checkColorHover = false
 let checkHover = false
+let timer = null;
+let checkTimeOut = false
+let checkPopup = false
 
 class Highlighter extends Component {
   state = {
@@ -20,12 +24,11 @@ class Highlighter extends Component {
     range: null,
     key: Math.random(),
     textTranslate: '',
-    checkPopup: false,
   }
 
   componentDidMount() {
     let _this = this;
-    let inputValue = ''
+    // let inputValue = ''
     let checkTooltip = false
     $("#longtext").click(function (e) {
       let that = this;
@@ -43,66 +46,22 @@ class Highlighter extends Component {
             placeTooltip(x, y);
             $("#tooltip").show();
             checkTooltip = true
+            checkPopup = true
             let range = window.getSelection().getRangeAt(0);
             _this.setState({
               textSelect: selection.toString(),
               range,
-              checkPopup: true
             })
-            $('#sel-txt').on('input', function (e) {
-              inputValue = e.currentTarget.value
-            });
             let selectionContents = _this.state.range.extractContents();
             div = document.createElement("span");
-            div.id = `name_tooltip_${Math.random()}`
+            // div.id = `name_tooltip_${Math.random()}`
             div.className = 'custom-class'
-            div.title = inputValue
+            div.id = inputValue
             div.appendChild(selectionContents);
             _this.state.range.insertNode(div);
             _this.setState({
               key: Math.random()
             })
-            $("#add-btn").click(function () {
-              checkTooltip = true
-              // if (classTooltip === 'custom-class') {
-              checkColor = true
-              $(div).replaceWith(`<span id=name_tooltip_${Math.random()} class="custom-class custom-class-replace" title=${inputValue}>${$(div).text()}</span>`);
-              _this.setState({
-                key: Math.random()
-              })
-              // } else {
-              //   $(div).replaceWith(`<span id=name_tooltip_${Math.random()} class="custom-class" title=${inputValue}>${$(div).text()}</span>`);
-              // }
-            });
-            $("#remove-btn").click(function () {
-              $("#tooltip").hide();
-              checkColor = false
-              $(div).replaceWith($(div).text());
-            });
-            $(document).on('click', function (e) {
-              if ($(e.target).closest("#tooltip").length === 0) {
-                $("#tooltip").hide();
-                if (inputValue && checkTooltip) {
-                  checkTooltip = false
-                  checkHover = false
-                  $(div).replaceWith(`<span id=name_tooltip_${Math.random()} class="${!checkColor ? 'custom-class' : 'custom-class custom-class-replace'}" title=${inputValue}>${$(div).text()}</span>`);
-                  checkColor = false
-                  _this.setState({
-                    key: Math.random(),
-                    checkPopup: false
-                  })
-                } else if (!inputValue && checkTooltip) {
-                  checkTooltip = false
-                  checkHover = false
-                  checkColor = false
-                  $(div).replaceWith($(div).text());
-                  _this.setState({
-                    key: Math.random(),
-                    checkPopup: false
-                  })
-                }
-              }
-            });
           }
         }
       }, 300);
@@ -123,16 +82,159 @@ class Highlighter extends Component {
         _this.setState({
           textSelect: selection.toString(),
         })
-        $(document).on('click', function (e) {
-          if ($(e.target).closest("#popup").length === 0) {
-            _this.setState({
-              key: Math.random()
-            })
-            $("#popup").hide();
-          }
-        });
       }
     });
+
+    $('#sel-txt').on('input', function (e) {
+      inputValue = e.currentTarget.value
+    });
+
+    $("#add-btn").click(function () {
+      checkTooltip = true
+      // if (classTooltip === 'custom-class') {
+      // $(div).removeAttr("span")
+      if (!checkColor) {
+        div.className = 'custom-class-replace'
+        checkColor = true
+      } else {
+        div.className = 'custom-class'
+        checkColor = false
+      }
+      div.id = inputValue
+      // $(div).replaceWith(`<span class="custom-class custom-class-replace" id=${inputValue}>${$(div).text()}</span>`);
+      _this.setState({
+        key: Math.random()
+      })
+      // } else {
+      //   $(div).replaceWith(`<span id=name_tooltip_${Math.random()} class="custom-class" id=${inputValue}>${$(div).text()}</span>`);
+      // }
+    });
+
+    $("#remove-btn").click(function () {
+      $("#tooltip").hide();
+      checkColor = false
+      $(div).removeAttr("class")
+      $(div).removeAttr("id")
+      _this.setState({
+        key: Math.random(),
+      })
+    });
+
+    $(document).on('click', function (e) {
+      if ($(e.target).closest("#tooltip").length === 0) {
+        $("#tooltip").hide();
+        if (inputValue && checkTooltip) {
+          checkTooltip = false
+          checkHover = false
+          // $(div).replaceWith(`<span class="${!checkColor ? 'custom-class' : 'custom-class custom-class-replace'}" id=${inputValue}>${$(div).text()}</span>`);
+          div.id = inputValue
+          checkColor = false
+          checkPopup = false
+          _this.setState({
+            key: Math.random(),
+          })
+        } else if (!inputValue && checkTooltip) {
+          if (!checkColor) {
+            console.log('removeHover: ')
+
+            $(div).removeAttr("class")
+            $(div).removeAttr("id")
+          }
+          checkTooltip = false
+          checkHover = false
+          checkColor = false
+          checkPopup = false
+          // $(div).replaceWith($(div).text());
+          _this.setState({
+            key: Math.random(),
+          })
+        }
+      }
+    });
+
+    $(document).on('click', function (e) {
+      if ($(e.target).closest("#popup").length === 0) {
+        _this.setState({
+          key: Math.random()
+        })
+        $("#popup").hide();
+      }
+    });
+
+    $('#sel-txt-hover').on('input', function (e) {
+      checkTooltip = true
+      inputValue = e.currentTarget.value
+    });
+
+    $("#add-btn-hover").click(function () {
+      console.log('checkColorHover: ', checkColorHover, classTooltip)
+      checkTooltip = true
+      if (classTooltip === 'custom-class') {
+        _thisHover.className = 'custom-class-replace'
+        // checkColorHover = true
+      } else {
+        _thisHover.className = 'custom-class'
+        // checkColorHover = false
+      }
+      _thisHover.id = inputValue
+      // _this.setState({
+      //   key: Math.random()
+      // })
+      // _this.className = 'custom-class custom-class-replace'
+      // if (classTooltip === 'custom-class') {
+      //   $(_this).replaceWith(`<span class="custom-class custom-class-replace" id=${inputValue}>${$(_this).text()}</span>`);
+      // } else {
+      //   $(_this).replaceWith(`<span class="custom-class" id=${inputValue}>${$(_this).text()}</span>`);
+      // }
+    });
+
+    $("#remove-btn-hover").click(function () {
+      $("#tooltip-hover").hide();
+      checkHover = false
+      checkColorHover = false
+      // $(_thisHover).removeAttr("class")
+      // $(_thisHover).removeAttr("id")
+      // _this.setState({
+      //   key: Math.random(),
+      // })
+      $(_thisHover).replaceWith($(_thisHover).text());
+    });
+
+    $("#tooltip-hover").hover(
+      function (e) {
+        clearTimeout(timer);
+        checkTimeOut = false
+      }, function (e) {
+        // setTimeout(function () {
+        if (!checkTimeOut) {
+          // timer = setTimeout(function () {
+          $('#tooltip-hover').hide();
+          if (inputValue && checkTooltip && inputValue !== e.currentTarget.id) {
+            checkTooltip = false
+            _thisHover.id = inputValue
+            checkColorHover = false
+            // if (classTooltip === 'custom-class') {
+            //   $(_this).replaceWith(`<span class="custom-class" id=${inputValue}>${$(_this).text()}</span>`);
+            // } else {
+            //   $(_this).replaceWith(`<span class="custom-class custom-class-replace" id=${inputValue}>${$(_this).text()}</span>`);
+            // }
+          } else if (!inputValue && checkTooltip) {
+            // if (!checkColorHover) {
+            //   $(_thisHover).removeAttr("class")
+            //   $(_thisHover).removeAttr("id")
+            // }
+            $(_thisHover).replaceWith($(_thisHover).text());
+            checkColorHover = false
+            checkTooltip = false
+            // $(_this).replaceWith($(_this).text());
+          }
+          // }, 300);
+          checkTimeOut = true
+        }
+        // }, 300);
+      }
+    )
+
     function placeTooltip(x_pos, y_pos) {
       $("#tooltip").css({
         top: y_pos - 73 + 'px',
@@ -150,70 +252,62 @@ class Highlighter extends Component {
   }
 
   componentDidUpdate() {
-    const { checkPopup } = this.state
+    // const { checkPopup } = this.state
     that = this
-    if (!checkPopup) {
-      $(".custom-class").hover(
-        function (e) {
-          if (!checkHover) {
-            inputValue = e.currentTarget.title
-            idTooltip = `#${e.currentTarget.id}`
-            classTooltip = $(e.target).attr('class')
-            _this = this;
-            let e_hover = e
-            $('#sel-txt-hover').val(e.currentTarget.title);
-            let x = e.pageX;
-            let y = e.pageY;
-            placeTooltip(x, y);
-            $("#tooltip-hover").show();
-            $('#sel-txt-hover').on('input', function (e) {
-              checkTooltip = true
-              inputValue = e.currentTarget.value
-            });
-            // console.log('checkHover: ', checkHover)
-            checkHover = true
-            $("#add-btn-hover").click(function () {
-              checkTooltip = true
-              if (classTooltip === 'custom-class') {
-                $(_this).replaceWith(`<span id=${e_hover.currentTarget.id} class="custom-class custom-class-replace" title=${inputValue}>${$(_this).text()}</span>`);
-              } else {
-                $(_this).replaceWith(`<span id=${e_hover.currentTarget.id} class="custom-class" title=${inputValue}>${$(_this).text()}</span>`);
-              }
-            });
-            $("#remove-btn-hover").click(function () {
-              $("#tooltip-hover").hide();
-              checkHover = false
-              $(_this).replaceWith($(_this).text());
-            });
-            $(document).on('click', function (e) {
-              if ($(e.target).closest("#tooltip-hover").length === 0) {
-                checkHover = false
-                $("#tooltip-hover").hide();
-                if (inputValue && checkTooltip && inputValue !== e_hover.currentTarget.title) {
-                  checkTooltip = false
-                  if (classTooltip === 'custom-class') {
-                    $(_this).replaceWith(`<span id=${e_hover.currentTarget.id} class="custom-class" title=${inputValue}>${$(_this).text()}</span>`);
-                  } else {
-                    $(_this).replaceWith(`<span id=${e_hover.currentTarget.id} class="custom-class custom-class-replace" title=${inputValue}>${$(_this).text()}</span>`);
-                  }
-                } else if (!inputValue && checkTooltip) {
-                  checkTooltip = false
-                  $(_this).replaceWith($(_this).text());
-                }
-              }
-            });
-          }
-        }, function () {
-          $(".custom-class").finish()
+    $(".custom-class, .custom-class-replace").hover(
+      function (e) {
+        if (!checkPopup) {
+          // if (!checkHover) {
+          console.log('hover: ', checkPopup);
+          inputValue = e.currentTarget.id
+          idTooltip = `#${e.currentTarget.id}`
+          classTooltip = $(e.target).attr('class')
+          _thisHover = this;
+          let e_hover = e
+          $('#sel-txt-hover').val(e.currentTarget.id);
+          let x = e.pageX;
+          let y = e.pageY;
+          placeTooltip(x, y);
+          $("#tooltip-hover").show();
+          // console.log('checkHover: ', checkHover)
+          checkHover = true
+          clearTimeout(timer);
+          checkTimeOut = false
+          // }
         }
-      );
-      function placeTooltip(x_pos, y_pos) {
-        $("#tooltip-hover").css({
-          top: y_pos - 75 + 'px',
-          left: x_pos - 140 + 'px',
-          position: 'absolute'
-        });
+      }, function () {
+        if (!checkTimeOut) {
+          timer = setTimeout(function () {
+            $('#tooltip-hover').hide();
+          }, 300);
+          checkTimeOut = true
+        }
+        // $(".custom-class").finish()
       }
+    );
+    // $(document).on('click', function (e) {
+    //   if ($(e.target).closest("#tooltip-hover").length === 0) {
+    //     checkHover = false
+    //     // $("#tooltip-hover").hide();
+    //     // if (inputValue && checkTooltip && inputValue !== e_hover.currentTarget.id) {
+    //     //   checkTooltip = false
+    //     //   if (classTooltip === 'custom-class') {
+    //     //     $(_this).replaceWith(`<span class="custom-class" id=${inputValue}>${$(_this).text()}</span>`);
+    //     //   } else {
+    //     //     $(_this).replaceWith(`<span class="custom-class custom-class-replace" id=${inputValue}>${$(_this).text()}</span>`);
+    //     //   }
+    //     // } else if (!inputValue && checkTooltip) {
+    //     //   checkTooltip = false
+    //     //   $(_this).replaceWith($(_this).text());
+    //     // }
+    //   }
+    // });
+    function placeTooltip(x_pos, y_pos) {
+      $("#tooltip-hover").css({
+        top: y_pos - 75 + 'px',
+        left: x_pos - 140 + 'px',
+        position: 'absolute'
+      });
     }
   }
 
