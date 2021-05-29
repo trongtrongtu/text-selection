@@ -104,8 +104,7 @@ class Highlighter extends Component {
     $("#remove-btn").click(function () {
       $("#tooltip").hide();
       checkColor = false
-      $(div).removeAttr("class")
-      $(div).removeAttr("id")
+      $(div).replaceWith(div.innerHTML);
       _this.setState({
         key: Math.random(),
       })
@@ -125,8 +124,7 @@ class Highlighter extends Component {
           })
         } else if (!inputValue && checkTooltip) {
           if (!checkColor) {
-            $(div).removeAttr("class")
-            $(div).removeAttr("id")
+            $(div).replaceWith(div.innerHTML);
           }
           checkTooltip = false
           checkHover = false
@@ -167,7 +165,7 @@ class Highlighter extends Component {
       $("#tooltip-hover").hide();
       checkHover = false
       checkColorHover = false
-      $(_thisHover).replaceWith($(_thisHover).text());
+      $(_thisHover).replaceWith(_thisHover.innerHTML);
     });
 
     $("#tooltip-hover").hover(
@@ -182,7 +180,7 @@ class Highlighter extends Component {
             _thisHover.id = inputValue
             checkColorHover = false
           } else if (!inputValue && checkTooltip) {
-            $(_thisHover).replaceWith($(_thisHover).text());
+            $(_thisHover).replaceWith(_thisHover.innerHTML);
             checkColorHover = false
             checkTooltip = false
           }
@@ -193,7 +191,7 @@ class Highlighter extends Component {
 
     function placeTooltip(x_pos, y_pos) {
       $("#tooltip").css({
-        top: y_pos - 73 + 'px',
+        top: y_pos - 77 + 'px',
         left: x_pos - 170 + 'px',
         position: 'absolute'
       });
@@ -237,7 +235,7 @@ class Highlighter extends Component {
     );
     function placeTooltip(x_pos, y_pos) {
       $("#tooltip-hover").css({
-        top: y_pos - 75 + 'px',
+        top: y_pos - 78 + 'px',
         left: x_pos - 140 + 'px',
         position: 'absolute'
       });
@@ -264,6 +262,7 @@ class Highlighter extends Component {
         </ul>
         <div id="tooltip" className="widget_not_handler hight-light-parent-panel">
           <div className="widget_not_handler hight-light-content-panel">
+            <div className="hight-light-content-panel-icon"><i class="fas fa-sort-down"></i></div>
             <div className="widget_not_handler-button">
               <button onClick={() => this.setState({ key: Math.random() })} type="button" id='add-btn' className="widget_not_handler btn-note-markup-quote"><i className="fas fa-pencil-alt" style={{ fontSize: '18px' }}></i> </button>
               <button type="button" id='remove-btn' className="widget_not_handler btn-note-markup-quote"><i className="far fa-trash-alt" style={{ fontSize: '18px' }}></i> </button>
@@ -273,6 +272,7 @@ class Highlighter extends Component {
         </div>
         <div id="tooltip-hover" className="widget_not_handler hight-light-parent-panel">
           <div className="widget_not_handler hight-light-content-panel">
+            <div className="hight-light-content-panel-icon"><i class="fas fa-sort-down"></i></div>
             <div className="widget_not_handler-button">
               <button onClick={() => this.setState({ key: Math.random() })} type="button" id='add-btn-hover' className="widget_not_handler btn-note-markup-quote" > <i className="fas fa-pencil-alt" style={{ fontSize: '18px' }}></i> </button>
               <button type="button" id='remove-btn-hover' className="widget_not_handler btn-note-markup-quote"><i className="far fa-trash-alt" style={{ fontSize: '18px' }}></i> </button>

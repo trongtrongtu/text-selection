@@ -118,6 +118,15 @@
   display: flex;
 }
 
+.hight-light-content-panel-icon {
+  font-size: 30px;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  position: absolute;
+  bottom: -14px;
+  left: calc(50% - 10px);
+}
+
 .widget_not_handler-button {
   /* display: flex; */
 }
