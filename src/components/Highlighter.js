@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import $ from 'jquery';
 import "./styles.css";
-// import 'antd/dist/antd.css';
 
 let that = null
 let _thisHover = null
@@ -28,7 +27,6 @@ class Highlighter extends Component {
 
   componentDidMount() {
     let _this = this;
-    // let inputValue = ''
     let checkTooltip = false
     $("#longtext").click(function (e) {
       let that = this;
@@ -54,7 +52,6 @@ class Highlighter extends Component {
             })
             let selectionContents = _this.state.range.extractContents();
             div = document.createElement("span");
-            // div.id = `name_tooltip_${Math.random()}`
             div.className = 'custom-class'
             div.id = inputValue
             div.appendChild(selectionContents);
@@ -91,8 +88,6 @@ class Highlighter extends Component {
 
     $("#add-btn").click(function () {
       checkTooltip = true
-      // if (classTooltip === 'custom-class') {
-      // $(div).removeAttr("span")
       if (!checkColor) {
         div.className = 'custom-class-replace'
         checkColor = true
@@ -101,13 +96,9 @@ class Highlighter extends Component {
         checkColor = false
       }
       div.id = inputValue
-      // $(div).replaceWith(`<span class="custom-class custom-class-replace" id=${inputValue}>${$(div).text()}</span>`);
       _this.setState({
         key: Math.random()
       })
-      // } else {
-      //   $(div).replaceWith(`<span id=name_tooltip_${Math.random()} class="custom-class" id=${inputValue}>${$(div).text()}</span>`);
-      // }
     });
 
     $("#remove-btn").click(function () {
@@ -126,7 +117,6 @@ class Highlighter extends Component {
         if (inputValue && checkTooltip) {
           checkTooltip = false
           checkHover = false
-          // $(div).replaceWith(`<span class="${!checkColor ? 'custom-class' : 'custom-class custom-class-replace'}" id=${inputValue}>${$(div).text()}</span>`);
           div.id = inputValue
           checkColor = false
           checkPopup = false
@@ -135,8 +125,6 @@ class Highlighter extends Component {
           })
         } else if (!inputValue && checkTooltip) {
           if (!checkColor) {
-            console.log('removeHover: ')
-
             $(div).removeAttr("class")
             $(div).removeAttr("id")
           }
@@ -144,7 +132,6 @@ class Highlighter extends Component {
           checkHover = false
           checkColor = false
           checkPopup = false
-          // $(div).replaceWith($(div).text());
           _this.setState({
             key: Math.random(),
           })
@@ -167,36 +154,19 @@ class Highlighter extends Component {
     });
 
     $("#add-btn-hover").click(function () {
-      console.log('checkColorHover: ', checkColorHover, classTooltip)
       checkTooltip = true
       if (classTooltip === 'custom-class') {
         _thisHover.className = 'custom-class-replace'
-        // checkColorHover = true
       } else {
         _thisHover.className = 'custom-class'
-        // checkColorHover = false
       }
       _thisHover.id = inputValue
-      // _this.setState({
-      //   key: Math.random()
-      // })
-      // _this.className = 'custom-class custom-class-replace'
-      // if (classTooltip === 'custom-class') {
-      //   $(_this).replaceWith(`<span class="custom-class custom-class-replace" id=${inputValue}>${$(_this).text()}</span>`);
-      // } else {
-      //   $(_this).replaceWith(`<span class="custom-class" id=${inputValue}>${$(_this).text()}</span>`);
-      // }
     });
 
     $("#remove-btn-hover").click(function () {
       $("#tooltip-hover").hide();
       checkHover = false
       checkColorHover = false
-      // $(_thisHover).removeAttr("class")
-      // $(_thisHover).removeAttr("id")
-      // _this.setState({
-      //   key: Math.random(),
-      // })
       $(_thisHover).replaceWith($(_thisHover).text());
     });
 
@@ -205,33 +175,19 @@ class Highlighter extends Component {
         clearTimeout(timer);
         checkTimeOut = false
       }, function (e) {
-        // setTimeout(function () {
         if (!checkTimeOut) {
-          // timer = setTimeout(function () {
           $('#tooltip-hover').hide();
           if (inputValue && checkTooltip && inputValue !== e.currentTarget.id) {
             checkTooltip = false
             _thisHover.id = inputValue
             checkColorHover = false
-            // if (classTooltip === 'custom-class') {
-            //   $(_this).replaceWith(`<span class="custom-class" id=${inputValue}>${$(_this).text()}</span>`);
-            // } else {
-            //   $(_this).replaceWith(`<span class="custom-class custom-class-replace" id=${inputValue}>${$(_this).text()}</span>`);
-            // }
           } else if (!inputValue && checkTooltip) {
-            // if (!checkColorHover) {
-            //   $(_thisHover).removeAttr("class")
-            //   $(_thisHover).removeAttr("id")
-            // }
             $(_thisHover).replaceWith($(_thisHover).text());
             checkColorHover = false
             checkTooltip = false
-            // $(_this).replaceWith($(_this).text());
           }
-          // }, 300);
           checkTimeOut = true
         }
-        // }, 300);
       }
     )
 
@@ -252,13 +208,10 @@ class Highlighter extends Component {
   }
 
   componentDidUpdate() {
-    // const { checkPopup } = this.state
     that = this
     $(".custom-class, .custom-class-replace").hover(
       function (e) {
         if (!checkPopup) {
-          // if (!checkHover) {
-          console.log('hover: ', checkPopup);
           inputValue = e.currentTarget.id
           idTooltip = `#${e.currentTarget.id}`
           classTooltip = $(e.target).attr('class')
@@ -269,11 +222,9 @@ class Highlighter extends Component {
           let y = e.pageY;
           placeTooltip(x, y);
           $("#tooltip-hover").show();
-          // console.log('checkHover: ', checkHover)
           checkHover = true
           clearTimeout(timer);
           checkTimeOut = false
-          // }
         }
       }, function () {
         if (!checkTimeOut) {
@@ -282,26 +233,8 @@ class Highlighter extends Component {
           }, 300);
           checkTimeOut = true
         }
-        // $(".custom-class").finish()
       }
     );
-    // $(document).on('click', function (e) {
-    //   if ($(e.target).closest("#tooltip-hover").length === 0) {
-    //     checkHover = false
-    //     // $("#tooltip-hover").hide();
-    //     // if (inputValue && checkTooltip && inputValue !== e_hover.currentTarget.id) {
-    //     //   checkTooltip = false
-    //     //   if (classTooltip === 'custom-class') {
-    //     //     $(_this).replaceWith(`<span class="custom-class" id=${inputValue}>${$(_this).text()}</span>`);
-    //     //   } else {
-    //     //     $(_this).replaceWith(`<span class="custom-class custom-class-replace" id=${inputValue}>${$(_this).text()}</span>`);
-    //     //   }
-    //     // } else if (!inputValue && checkTooltip) {
-    //     //   checkTooltip = false
-    //     //   $(_this).replaceWith($(_this).text());
-    //     // }
-    //   }
-    // });
     function placeTooltip(x_pos, y_pos) {
       $("#tooltip-hover").css({
         top: y_pos - 75 + 'px',
