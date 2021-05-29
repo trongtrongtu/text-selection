@@ -281,7 +281,7 @@ class Highlighter extends Component {
           </div>
         </div>
         <div id="popup" className="dict-word-panel">
-          <div className="popupHeader">
+          <div className="popup-header">
             <span style={{ fontWeight: 'bold' }}>{textSelect}</span>
             <span style={{ position: 'absolute', top: 6, right: 8, cursor: 'pointer' }} onClick={() => document.getElementById('popup').style.display = "none"}><i className="far fa-times-circle"></i></span>
           </div>
