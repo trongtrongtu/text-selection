@@ -54,6 +54,7 @@ class Highlighter extends Component {
             div = document.createElement("span");
             div.className = 'custom-class'
             div.id = inputValue
+            $("#sel-txt").focus();
             div.appendChild(selectionContents);
             _this.state.range.insertNode(div);
             _this.setState({
